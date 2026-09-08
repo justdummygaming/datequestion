@@ -13,22 +13,32 @@ const handleYesClick = () => {
   noBtn.removeEventListener("mouseover", handleNoMouseOver);
   noBtn.remove();
 
+  const dateContainer = document.createElement("div");
+  dateContainer.classList.add("date-choices");
+
   // Create date input
   const dateInput = document.createElement("input");
   dateInput.type = "date";
   dateInput.style.padding = "10px";
   dateInput.style.fontSize = "24px";
   dateInput.style.margin = "10px";
-  dateInput.style.marginLeft = "-300px";
+  dateInput.style.display = "flex";
+
+  dateContainer.appendChild(dateInput);
+  
 
   // Create date confirmation button
-  const confirmDateBtn = document.createElement("button");
+  const confirmDateBtn = document.createElement("btn2");
   confirmDateBtn.textContent = "Set our date ❤️";
   confirmDateBtn.classList.add("letsgo-btn");
+  confirmDateBtn.style.display = "flex";
+
+  dateContainer.appendChild(confirmDateBtn);
+
 
   // Replace Yes button with date picker
-  yesBtn.replaceWith(dateInput);
-  dateInput.insertAdjacentElement("afterend", confirmDateBtn);
+  yesBtn.replaceWith(dateContainer);
+  
 
   // After choosing the date
   confirmDateBtn.addEventListener("click", () => {
@@ -86,7 +96,6 @@ const handleYesClick = () => {
         // Also store in sessionStorage as backup
         sessionStorage.setItem('selectedDate', selectedDate);
         sessionStorage.setItem('selectedIdea', idea);
-        
         question.innerHTML = `
           YAYYYYY! ❤️<br><br>
           Our date is set for:<br>
