@@ -1,144 +1,129 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+const qs = (selector) => document.querySelector(selector);
 
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: whitesmoke;
-    font-family: 'Leckerli One', cursive;
-    font-size: large;
-    background-color: rgb(246, 211, 217);
-}
+const question = qs(".question");
+const gif = qs(".gif");
+const yesBtn = qs(".yes-btn");
+const noBtn = qs(".no-btn");
 
-h2 {
-    text-align: center;
-    font-size: 1.5em;
-    color: #e94d58;
-    margin: 15px 0;
-}
+const handleYesClick = () => {
+  question.innerHTML = "Yaaaaay! ❤️ When is our date?";
+  gif.src = "https://media.giphy.com/media/UMon0fuimoAN9ueUNP/giphy.gif";
 
-.gif {
-    height: 100%;
-    width: 100%;
-}
+  // Remove No button
+  noBtn.removeEventListener("mouseover", handleNoMouseOver);
+  noBtn.remove();
 
-.btn-group {
-    width: 100%;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-}
+  const dateContainer = document.createElement("div");
+  dateContainer.classList.add("date-choices1");
 
-button {
-    position: absolute;
-    width: 150px;
-    height: inherit;
-    font-size: 1.2em;
-    color: white;
-    border-radius: 30px;
-    outline: none;
-    cursor: pointer;
-    box-shadow: 0 2px 4px gray;
-    border: 2px solid #e94d58;
-}
+  // Create date input
+  const dateInput = document.createElement("input");
+  dateInput.type = "date";
+  dateInput.style.padding = "10px";
+  dateInput.style.fontSize = "24px";
+  dateInput.style.margin = "10px";
+  dateInput.style.display = "flex";
 
-button:nth-child(1) {
-    margin-left: -200px;
-    background: #e94d58;
-}
+  dateContainer.appendChild(dateInput);
+  
 
-button:nth-child(2) {
-    margin-right: -200px;
-    background: white;
-    color: #e94d58;
-}
+  // Create date confirmation button
+  const confirmDateBtn = document.createElement("btn2");
+  confirmDateBtn.textContent = "Set our date ❤️";
+  confirmDateBtn.classList.add("letsgo-btn");
+  confirmDateBtn.style.display = "flex";
 
-.letsgo-btn {
-  font-size: 20px;
-  padding: 15px 30px;
-  min-width: 220px;
-  min-height: 70px;
-  border-radius: 12px;
-  cursor: pointer;
-  display: Flex;
+  dateContainer.appendChild(confirmDateBtn);
 
-} 
-btn2 {
-    width: 150px;
-    height: inherit;
-    font-size: 1.2em;
-    border-radius: 30px;
-    
-    cursor: pointer;
-    box-shadow: 0 2px 4px gray;
-    border: 2px solid #e94d58;
-    background: white;
-    color: #e94d58;
-    
-}
-btn {
-    width: 150px;
-    height: inherit;
-    font-size: 1.2em;
-    color: white;
-    border-radius: 30px;
-    outline: none;
-    cursor: pointer;
-    box-shadow: 0 2px 4px gray;
-    border: 2px solid #e94d58;
-}
 
-.date-choices {
-  display: grid !important;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  width: 100%;
-  max-width: 600px;
-  margin: 20px auto;
-}
-.date-choices1 {
-  grid-template-columns: 1fr !important;
-  display: flex !important;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.date-choice-btn {
-  border: none;
-  border-radius: 14px;
-  background: #ff6680;
-  color: white;
-  font-weight: bold;
-  font-family: Arial;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+  // Replace Yes button with date picker
+  yesBtn.replaceWith(dateContainer);
+  
 
-.date-choice-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.25);
-}
+  // After choosing the date
+  confirmDateBtn.addEventListener("click", () => {
+    if (!dateInput.value) {
+      alert("Please choose a date first babe");
+      return;
+    }
 
-.date-choice-btn:active {
-  transform: scale(0.97);
-}
+    // Format selected date
+    const selectedDate = new Date(
+      dateInput.value + "T00:00:00"
+    ).toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
 
-@media (max-width: 600px) {
-  .date-choices {
-    grid-template-columns: 1fr !important;
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-}
+    // Remove date picker
+    dateInput.remove();
+    confirmDateBtn.remove();
+
+    // Ask what kind of date
+    question.innerHTML = `Perfect! ❤️ Our date is on ${selectedDate}.<br><br>What kind of date would you like?`;
+
+    // Date choices
+    const dateIdeas = [
+      "Movie marathon night at home 🎬",
+      "Date in the park 🌳",
+      "Art Museum 🎨",
+      "Zoo 🦁",
+      "Cooking sesh 👩‍🍳❤️"
+    ];
+
+    // Create a container for choices
+    const choicesContainer = document.createElement("div");
+    choicesContainer.classList.add("date-choices");
+
+    // Create a button for each choice
+    dateIdeas.forEach((idea) => {
+      const choiceBtn = document.createElement("btn");
+
+      choiceBtn.textContent = idea;
+      choiceBtn.classList.add("date-choice-btn");
+
+
+      // When a date type is selected
+      choiceBtn.addEventListener("click", () => {
+         // STORE THE DATA
+        localStorage.setItem('selectedDate', selectedDate);
+        localStorage.setItem('selectedIdea', idea);
+        localStorage.setItem('dateSet', 'true');
+        localStorage.setItem('timestamp', new Date().toISOString());
+        
+        // Also store in sessionStorage as backup
+        sessionStorage.setItem('selectedDate', selectedDate);
+        sessionStorage.setItem('selectedIdea', idea);
+        question.innerHTML = `
+          YAYYYYY! ❤️<br><br>
+          Our date is set for:<br>
+          📅 ${selectedDate}<br><br>
+          💕 ${idea}
+        `;
+
+        // Remove all choices
+        choicesContainer.remove();
+      });
+
+      choicesContainer.appendChild(choiceBtn);
+    });
+
+    // Add choices below the question
+    question.insertAdjacentElement("afterend", choicesContainer);
+  });
+};
+
+const handleNoMouseOver = () => {
+  const { width, height } = noBtn.getBoundingClientRect();
+
+  const maxX = window.innerWidth - width;
+  const maxY = window.innerHeight - height;
+
+  noBtn.style.left = `${Math.floor(Math.random() * maxX)}px`;
+  noBtn.style.top = `${Math.floor(Math.random() * maxY)}px`;
+};
+
+yesBtn.addEventListener("click", handleYesClick);
+noBtn.addEventListener("mouseover", handleNoMouseOver);
