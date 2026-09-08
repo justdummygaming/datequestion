@@ -14,7 +14,7 @@ const handleYesClick = () => {
   noBtn.remove();
 
   const dateContainer = document.createElement("div");
-  dateContainer.classList.add("date-choices");
+  dateContainer.classList.add("date-choices1");
 
   // Create date input
   const dateInput = document.createElement("input");
