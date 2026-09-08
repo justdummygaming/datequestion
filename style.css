@@ -66,8 +66,22 @@ button:nth-child(2) {
   min-height: 70px;
   border-radius: 12px;
   cursor: pointer;
-}
+  display: Flex;
 
+} 
+btn2 {
+    width: 150px;
+    height: inherit;
+    font-size: 1.2em;
+    border-radius: 30px;
+    
+    cursor: pointer;
+    box-shadow: 0 2px 4px gray;
+    border: 2px solid #e94d58;
+    background: white;
+    color: #e94d58;
+    
+}
 btn {
     width: 150px;
     height: inherit;
